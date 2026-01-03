@@ -12,3 +12,12 @@ headers = {
 
 time.sleep(2)  # Add a delay of 1 second between requests to avoid rate limiting
 
+response = requests.get(url, headers=headers)
+
+time.sleep(2)  # Add a delay of 1 second between requests to avoid rate limiting
+
+print("Status:", response.status_code)
+
+time.sleep(2)  # Add a delay of 1 second between requests to avoid rate limiting
+
+print("Response:", response.text)
