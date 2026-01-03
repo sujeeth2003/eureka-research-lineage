@@ -1,0 +1,10 @@
+feedparser
+hdbscan
+matplotlib
+numpy
+pandas
+requests
+scikit-learn
+torch
+transformers
+umap-learn
