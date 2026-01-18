@@ -27,3 +27,14 @@ def extract_top_terms_per_cluster(df):
         )
         top_terms_list = sorted_terms[sorted_terms > 0].head(top_n).index.tolist()
 
+        # Join terms into a single comma-separated string
+        terms_string = ", ".join(top_terms_list)
+
+        # Append results
+        export_data.append(
+            {"cluster_id": cluster_num, f"top_{top_n}_terms": terms_string}
+        )
+
+    return export_data
+
+
