@@ -33,3 +33,15 @@ plt.show()
 reducer_3d = umap.UMAP(n_neighbors=15, n_components=3, metric='cosine')
 X_3d = reducer_3d.fit_transform(X_reduced)
 
+# 2. Set up a 3D matplotlib plot
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+# 3. Plot points using cluster labels for color
+scatter = ax.scatter(X_3d[:, 0], X_3d[:, 1], X_3d[:, 2], c=cluster_labels, cmap='Spectral', s=5)
+
+# 4. Add visual aids
+fig.colorbar(scatter, ax=ax, label='Cluster Labels')
+ax.set_title('3D UMAP Projection')
+plt.show()
+'''
