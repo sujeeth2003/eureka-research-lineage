@@ -18,3 +18,18 @@ X_2d = reducer_2d.fit_transform(X_reduced)
 
 
 
+
+
+'''
+import matplotlib.pyplot as plt
+
+plt.scatter(X_2d[:, 0], X_2d[:, 1], c=cluster_labels, cmap='Spectral', s=5)
+plt.colorbar()
+plt.title('UMAP Projection with Cluster Labels')
+plt.show()
+
+
+# 1. Update UMAP to output 3 dimensions
+reducer_3d = umap.UMAP(n_neighbors=15, n_components=3, metric='cosine')
+X_3d = reducer_3d.fit_transform(X_reduced)
+
