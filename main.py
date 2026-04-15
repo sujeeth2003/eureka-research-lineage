@@ -26,3 +26,18 @@ reducer = umap.UMAP(
 )
 X_reduced = reducer.fit_transform(X)
 
+#np.save("Eurekhalineage/X_reduced.npy", X_reduced)
+
+cluster_labels = cluster(X_reduced)
+
+result = [[item, cid] for item, cid in zip(papers, cluster_labels)]
+
+flattened_result = []
+
+for paper, cluster_id in result:
+	row = paper.copy()
+	row['cluster_id'] = cluster_id
+	flattened_result.append(row)
+
+#np.save("Eurekhalineage/cluster_labels.npy", cluster_labels)
+
