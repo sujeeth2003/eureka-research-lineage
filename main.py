@@ -41,3 +41,14 @@ for paper, cluster_id in result:
 
 #np.save("Eurekhalineage/cluster_labels.npy", cluster_labels)
 
+df = pd.DataFrame(flattened_result)
+df.to_csv("Eurekhalineage/clustered_papers.csv", index=False)
+
+
+export_data = extract_top_terms_per_cluster(df)
+pd.DataFrame(export_data).to_csv("Eurekhalineage/cluster_top_terms.csv", index=False)
+
+paper_by_arxiv = {
+    row["arxiv_id"]: row
+    for _, row in df.iterrows()
+}
