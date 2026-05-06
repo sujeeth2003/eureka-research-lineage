@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EurekaLineage</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/vis-network.min.js"></script>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; margin: 0; display: flex; height: 100vh; background: #0f1115; color: #e8e8e8; }
+  #sidebar { width: 280px; overflow-y: auto; border-right: 1px solid #2a2d34; padding: 12px; box-sizing: border-box; }
+  #main { flex: 1; display: flex; flex-direction: column; }
+  #graph { flex: 1; }
+  #frontier { height: 160px; border-top: 1px solid #2a2d34; padding: 10px 16px; overflow-y: auto; }
+  h1 { font-size: 16px; padding: 12px 16px; margin: 0; border-bottom: 1px solid #2a2d34; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  .cluster-item { padding: 10px; margin-bottom: 6px; border-radius: 8px; cursor: pointer; background: #1a1d24; }
+  .cluster-item:hover { background: #23272f; }
+  .cluster-item.active { background: #2d3f6b; }
+  .terms { font-size: 11px; color: #9aa0a6; }
+  .count { font-size: 11px; color: #6a90ff; }
+  .legend { display: flex; gap: 14px; padding: 8px 16px; font-size: 12px; border-bottom: 1px solid #2a2d34; }
+  .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+  .frontier-item { font-size: 13px; padding: 4px 0; border-bottom: 1px solid #23272f; }
+</style>
+</head>
+<body>
+
