@@ -72,3 +72,19 @@ function selectCluster(cid) {
   const nodes = new vis.DataSet(data.nodes.map(n => ({...n, level: n.year})));
   const edges = new vis.DataSet(data.edges.map((e, i) => ({...e, id: i, arrows: 'to', font: {color:'#ccc', size:10}})));
 
+  const container = document.getElementById('graph');
+  const options = {
+    layout: { hierarchical: { direction: 'LR', sortMethod: 'directed', levelSeparation: 160, nodeSpacing: 90 } },
+    physics: false,
+    nodes: { shape: 'box', color: { background: '#1a1d24', border: '#4C8BF5' }, font: { color: '#e8e8e8', size: 11 }, margin: 8 },
+    edges: { smooth: { type: 'cubicBezier' } },
+    interaction: { hover: true }
+  };
+  network = new vis.Network(container, { nodes, edges }, options);
+
+  const frontierList = document.getElementById('frontier-list');
+  frontierList.innerHTML = (clusters[cid] || []).map(f =>
+    `<div class="frontier-item">${f.title} <span style="color:#6a90ff">(${f.year})</span></div>`
+  ).join('') || '<div class="frontier-item">No frontier data</div>';
+}
+
