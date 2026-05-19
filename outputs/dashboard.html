@@ -88,3 +88,10 @@ function selectCluster(cid) {
   ).join('') || '<div class="frontier-item">No frontier data</div>';
 }
 
+// select first cluster on load
+const firstCid = Object.keys(graphData)[0];
+if (firstCid !== undefined) selectCluster(firstCid);
+</script>
+
+</body>
+</html>
