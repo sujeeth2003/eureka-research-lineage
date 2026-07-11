@@ -17,3 +17,20 @@ Output files (written to OUT_DIR):
   - citation_contexts.json     (edge + surrounding sentence(s) as evidence)
 """
 
+import os
+import re
+import time
+import json
+import requests
+import pandas as pd
+
+try:
+    import fitz  # PyMuPDF
+except ImportError:
+    fitz = None
+
+try:
+    from rapidfuzz import fuzz
+except ImportError:
+    fuzz = None
+
