@@ -41,3 +41,12 @@ OPENALEX_URL = "https://api.openalex.org/works"
 # Setup
 # ---------------------------------------------------------------------------
 
+def ensure_dirs(out_dir):
+    os.makedirs(out_dir, exist_ok=True)
+    os.makedirs(os.path.join(out_dir, "papers"), exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# Step 1: download PDFs
+# ---------------------------------------------------------------------------
+
