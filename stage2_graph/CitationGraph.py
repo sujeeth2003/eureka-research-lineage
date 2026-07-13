@@ -50,3 +50,24 @@ def ensure_dirs(out_dir):
 # Step 1: download PDFs
 # ---------------------------------------------------------------------------
 
+def download_pdf(paper, out_dir):
+    arxiv_id = paper["arxiv_id"].replace("/", "_")
+    path = os.path.join(out_dir, "papers", f"{arxiv_id}.pdf")
+
+    if os.path.exists(path):
+        return path
+
+    pdf_url = paper.get("pdf_url")
+    if not pdf_url:
+        return None
+
+    try:
+        resp = requests.get(pdf_url, timeout=60, headers={"User-Agent": "Mozilla/5.0"})
+        resp.raise_for_status()
+        with open(path, "wb") as f:
+            f.write(resp.content)
+        return path
+    except Exception as e:
+        print(f"  [pdf] failed {arxiv_id}: {e}")
+        return None
+
