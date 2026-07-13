@@ -71,3 +71,15 @@ def download_pdf(paper, out_dir):
         print(f"  [pdf] failed {arxiv_id}: {e}")
         return None
 
+
+def download_all_pdfs(papers, out_dir, sleep=1.0):
+    for paper in papers:
+        paper["pdf_path"] = download_pdf(paper, out_dir)
+        time.sleep(sleep)
+    return papers
+
+
+# ---------------------------------------------------------------------------
+# Step 2: extract raw text from PDF
+# ---------------------------------------------------------------------------
+
