@@ -83,3 +83,20 @@ def download_all_pdfs(papers, out_dir, sleep=1.0):
 # Step 2: extract raw text from PDF
 # ---------------------------------------------------------------------------
 
+def extract_pdf_text(pdf_path):
+    if not pdf_path or fitz is None:
+        return ""
+    try:
+        doc = fitz.open(pdf_path)
+        pages = [page.get_text("text") for page in doc]
+        doc.close()
+        return "\n".join(pages)
+    except Exception as e:
+        print(f"  [extract] failed {pdf_path}: {e}")
+        return ""
+
+
+# ---------------------------------------------------------------------------
+# Step 3: arXiv -> OpenAlex mapping
+# ---------------------------------------------------------------------------
+
