@@ -100,3 +100,20 @@ def extract_pdf_text(pdf_path):
 # Step 3: arXiv -> OpenAlex mapping
 # ---------------------------------------------------------------------------
 
+def find_openalex_work(paper):
+    params = {"search": paper["title"], "per-page": 10}
+    try:
+        resp = requests.get(OPENALEX_URL, params=params, timeout=30)
+        resp.raise_for_status()
+        results = resp.json().get("results", [])
+    except Exception as e:
+        print(f"  [openalex] search failed {paper['arxiv_id']}: {e}")
+        return None
+
+    clean_arxiv = paper["arxiv_id"].split("v")[0]
+
+    for work in results:
+        arxiv_url = work.get("ids", {}).get("arxiv")
+        if arxiv_url and clean_arxiv in arxiv_url:
+            return work
+
