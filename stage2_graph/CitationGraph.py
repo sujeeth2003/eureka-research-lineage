@@ -117,3 +117,15 @@ def find_openalex_work(paper):
         if arxiv_url and clean_arxiv in arxiv_url:
             return work
 
+    if fuzz is None:
+        return None
+
+    best_work, best_score = None, 0
+    for work in results:
+        score = fuzz.token_set_ratio(paper["title"].lower(), work.get("title", "").lower())
+        if score > best_score:
+            best_score, best_work = score, work
+
+    return best_work if best_score >= 90 else None
+
+
