@@ -129,3 +129,17 @@ def find_openalex_work(paper):
     return best_work if best_score >= 90 else None
 
 
+def build_openalex_mapping(papers, out_dir, sleep=0.2):
+    arxiv_to_openalex = {}
+    for paper in papers:
+        work = find_openalex_work(paper)
+        if work:
+            arxiv_to_openalex[paper["arxiv_id"]] = work["id"]
+            print(f"  {paper['arxiv_id']} -> {work['id']}")
+        else:
+            print(f"  {paper['arxiv_id']} -> NOT FOUND")
+        time.sleep(sleep)
+
+    with open(os.path.join(out_dir, "arxiv_to_openalex.json"), "w") as f:
+        json.dump(arxiv_to_openalex, f, indent=2)
+
