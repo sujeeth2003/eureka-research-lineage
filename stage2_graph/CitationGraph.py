@@ -160,3 +160,17 @@ def get_referenced_works(openalex_id):
         return []
 
 
+def get_year(paper):
+    return pd.to_datetime(paper["published"]).year
+
+
+def build_candidate_edges(papers, arxiv_to_openalex, out_dir, sleep=0.2):
+    openalex_to_arxiv = {v: k for k, v in arxiv_to_openalex.items()}
+    paper_by_arxiv = {p["arxiv_id"]: p for p in papers}
+
+    edges = []
+    for source in papers:
+        source_openalex = arxiv_to_openalex.get(source["arxiv_id"])
+        if not source_openalex:
+            continue
+
