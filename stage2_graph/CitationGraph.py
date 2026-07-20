@@ -143,3 +143,10 @@ def build_openalex_mapping(papers, out_dir, sleep=0.2):
     with open(os.path.join(out_dir, "arxiv_to_openalex.json"), "w") as f:
         json.dump(arxiv_to_openalex, f, indent=2)
 
+    return arxiv_to_openalex
+
+
+# ---------------------------------------------------------------------------
+# Step 4: in-corpus candidate edges (source cites target, same cluster, target earlier)
+# ---------------------------------------------------------------------------
+
