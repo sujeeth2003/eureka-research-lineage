@@ -150,3 +150,13 @@ def build_openalex_mapping(papers, out_dir, sleep=0.2):
 # Step 4: in-corpus candidate edges (source cites target, same cluster, target earlier)
 # ---------------------------------------------------------------------------
 
+def get_referenced_works(openalex_id):
+    try:
+        resp = requests.get(openalex_id, timeout=30)
+        resp.raise_for_status()
+        return resp.json().get("referenced_works", [])
+    except Exception as e:
+        print(f"  [refs] failed {openalex_id}: {e}")
+        return []
+
+
