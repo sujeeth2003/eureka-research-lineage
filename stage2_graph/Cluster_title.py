@@ -13,3 +13,17 @@ def extract_top_terms_per_cluster(df):
     top_n = 5
     export_data = []
 
+    for cluster_num in sorted(df["cluster_id"].unique()):
+        # Get row indices for the current cluster
+        row_indices = df[df["cluster_id"] == cluster_num].index
+
+        # Subset matrix and calculate mean scores
+        cluster_matrix = tfidf_matrix[row_indices]
+        mean_scores = np.asarray(cluster_matrix.mean(axis=0)).flatten()
+
+        # Match terms with scores and sort descending
+        sorted_terms = pd.Series(mean_scores, index=terms).sort_values(
+            ascending=False
+        )
+        top_terms_list = sorted_terms[sorted_terms > 0].head(top_n).index.tolist()
+
