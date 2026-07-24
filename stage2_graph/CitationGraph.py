@@ -174,3 +174,24 @@ def build_candidate_edges(papers, arxiv_to_openalex, out_dir, sleep=0.2):
         if not source_openalex:
             continue
 
+        for ref in get_referenced_works(source_openalex):
+            target_arxiv = openalex_to_arxiv.get(ref)
+            if not target_arxiv or target_arxiv == source["arxiv_id"]:
+                continue
+
+            target = paper_by_arxiv[target_arxiv]
+            source_year, target_year = get_year(source), get_year(target)
+            same_cluster = source["cluster_id"] == target["cluster_id"]
+
+            if same_cluster and target_year <= source_year:
+                edges.append({
+                    "source_arxiv": source["arxiv_id"],
+                    "target_arxiv": target_arxiv,
+                    "source_title": source["title"],
+                    "target_title": target["title"],
+                    "source_year": source_year,
+                    "target_year": target_year,
+                    "cluster_id": int(source["cluster_id"]),
+                })
+        time.sleep(sleep)
+
