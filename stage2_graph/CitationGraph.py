@@ -195,3 +195,17 @@ def build_candidate_edges(papers, arxiv_to_openalex, out_dir, sleep=0.2):
                 })
         time.sleep(sleep)
 
+    df = pd.DataFrame(edges)
+    df.to_csv(os.path.join(out_dir, "candidate_edges.csv"), index=False)
+    return df
+
+
+# ---------------------------------------------------------------------------
+# Step 5: locate the citation marker + surrounding sentence(s) as evidence
+# ---------------------------------------------------------------------------
+
+REF_HEADER_PATTERNS = [
+    r"\nReferences\s*\n", r"\nREFERENCES\s*\n",
+    r"\nBibliography\s*\n", r"\nBIBLIOGRAPHY\s*\n",
+]
+
