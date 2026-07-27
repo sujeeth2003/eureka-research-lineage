@@ -220,3 +220,17 @@ def get_reference_section(text):
     return text[start:]
 
 
+def find_reference_number(reference_section, target_title):
+    if fuzz is None:
+        return None
+    entries = re.split(r"\n\s*(?=\[\d+\])", reference_section)
+    best_score, best_number = 0, None
+    for entry in entries:
+        m = re.match(r"\[(\d+)\]", entry.strip())
+        if not m:
+            continue
+        score = fuzz.token_set_ratio(target_title.lower(), entry.lower())
+        if score > best_score:
+            best_score, best_number = score, int(m.group(1))
+    return best_number if best_score >= 70 else None
+
