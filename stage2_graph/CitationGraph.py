@@ -234,3 +234,15 @@ def find_reference_number(reference_section, target_title):
             best_score, best_number = score, int(m.group(1))
     return best_number if best_score >= 70 else None
 
+
+def find_citation_context(text, citation_number, window=400):
+    reference_section = get_reference_section(text)
+    body = text[:text.rfind(reference_section)] if reference_section else text
+    pattern = rf"\[{citation_number}\]"
+    contexts = []
+    for m in re.finditer(pattern, body):
+        start, end = max(0, m.start() - window), min(len(body), m.end() + window)
+        contexts.append(body[start:end].replace("\n", " ").strip())
+    return contexts
+
+
