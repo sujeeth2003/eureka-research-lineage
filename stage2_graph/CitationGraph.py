@@ -209,3 +209,14 @@ REF_HEADER_PATTERNS = [
     r"\nBibliography\s*\n", r"\nBIBLIOGRAPHY\s*\n",
 ]
 
+
+def get_reference_section(text):
+    matches = []
+    for pattern in REF_HEADER_PATTERNS:
+        matches.extend(list(re.finditer(pattern, text)))
+    if not matches:
+        return ""
+    start = max(m.start() for m in matches)
+    return text[start:]
+
+
