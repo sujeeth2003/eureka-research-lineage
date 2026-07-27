@@ -246,3 +246,18 @@ def find_citation_context(text, citation_number, window=400):
     return contexts
 
 
+def build_citation_contexts(candidate_df, papers, out_dir):
+    paper_by_arxiv = {p["arxiv_id"]: p for p in papers}
+    results = []
+
+    for _, edge in candidate_df.iterrows():
+        source = paper_by_arxiv[edge["source_arxiv"]]
+        pdf_path = source.get("pdf_path")
+        if not pdf_path:
+            continue
+
+        text = extract_pdf_text(pdf_path)
+        ref_section = get_reference_section(text)
+        if not ref_section:
+            continue
+
