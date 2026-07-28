@@ -261,3 +261,21 @@ def build_citation_contexts(candidate_df, papers, out_dir):
         if not ref_section:
             continue
 
+        ref_number = find_reference_number(ref_section, edge["target_title"])
+        if ref_number is None:
+            continue
+
+        contexts = find_citation_context(text, ref_number)
+
+        results.append({
+            "source_arxiv": edge["source_arxiv"],
+            "target_arxiv": edge["target_arxiv"],
+            "source_title": edge["source_title"],
+            "target_title": edge["target_title"],
+            "source_year": int(edge["source_year"]),
+            "target_year": int(edge["target_year"]),
+            "cluster_id": int(edge["cluster_id"]),
+            "citation_number": ref_number,
+            "citation_contexts": contexts,
+        })
+
