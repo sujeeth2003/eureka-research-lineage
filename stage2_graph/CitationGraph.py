@@ -279,3 +279,13 @@ def build_citation_contexts(candidate_df, papers, out_dir):
             "citation_contexts": contexts,
         })
 
+    with open(os.path.join(out_dir, "citation_contexts.json"), "w") as f:
+        json.dump(results, f, indent=2)
+
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Orchestration
+# ---------------------------------------------------------------------------
+
