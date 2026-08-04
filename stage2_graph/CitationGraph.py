@@ -289,3 +289,17 @@ def build_citation_contexts(candidate_df, papers, out_dir):
 # Orchestration
 # ---------------------------------------------------------------------------
 
+def build_citation_graph(papers, out_dir, download=True):
+    ensure_dirs(out_dir)
+
+    if download:
+        print("Downloading PDFs...")
+        papers = download_all_pdfs(papers, out_dir)
+
+    print("Mapping to OpenAlex...")
+    arxiv_to_openalex = build_openalex_mapping(papers, out_dir)
+
+    print("Building candidate edges...")
+    candidate_df = build_candidate_edges(papers, arxiv_to_openalex, out_dir)
+    print(f"  {len(candidate_df)} candidate edges")
+
