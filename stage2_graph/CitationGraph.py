@@ -303,3 +303,8 @@ def build_citation_graph(papers, out_dir, download=True):
     candidate_df = build_candidate_edges(papers, arxiv_to_openalex, out_dir)
     print(f"  {len(candidate_df)} candidate edges")
 
+    print("Extracting citation contexts (evidence sentences)...")
+    contexts = build_citation_contexts(candidate_df, papers, out_dir)
+    print(f"  {len(contexts)} edges with textual evidence")
+
+    return candidate_df, contexts
