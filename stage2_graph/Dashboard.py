@@ -13,3 +13,11 @@ Usage: python Dashboard.py  (reads lineage_graph.json, writes dashboard.html)
 import json
 import os
 
+RELATION_COLOR = {
+    "extends": "#4C8BF5",
+    "improves": "#2E9E5B",
+    "disproves": "#D64545",
+    "uses": "#9AA0A6",
+}
+
+
