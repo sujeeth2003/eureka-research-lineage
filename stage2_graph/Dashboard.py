@@ -80,3 +80,23 @@ def render_dashboard(lineage, out_path):
 </style>
 </head>
 <body>
+
+<div id="sidebar">
+  <h1 style="border:none;padding:0 0 10px 0;">EurekaLineage clusters</h1>
+  <ul>{cluster_list_html}</ul>
+</div>
+
+<div id="main">
+  <div class="legend">
+    <span><span class="swatch" style="background:#4C8BF5"></span>extends</span>
+    <span><span class="swatch" style="background:#2E9E5B"></span>improves</span>
+    <span><span class="swatch" style="background:#D64545"></span>disproves</span>
+    <span><span class="swatch" style="background:#9AA0A6"></span>uses</span>
+  </div>
+  <div id="graph"></div>
+  <div id="frontier">
+    <strong>Current frontier (not yet superseded):</strong>
+    <div id="frontier-list"></div>
+  </div>
+</div>
+
