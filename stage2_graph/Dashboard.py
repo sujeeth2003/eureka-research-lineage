@@ -21,3 +21,30 @@ RELATION_COLOR = {
 }
 
 
+def render_dashboard(lineage, out_path):
+    clusters = lineage["clusters"]
+
+    # Build vis-network compatible node/edge sets per cluster
+    graph_data = {}
+    for cid, c in clusters.items():
+        nodes = [
+            {
+                "id": n["arxiv_id"],
+                "label": (n["title"][:40] + "...") if len(n["title"]) > 40 else n["title"],
+                "title": f"{n['title']} ({n['year']})",
+                "year": n["year"],
+            }
+            for n in c["nodes"]
+        ]
+        edges = [
+            {
+                "from": e["target"],  # older paper -> points arrow toward newer
+                "to": e["source"],
+                "label": e["relation"],
+                "color": RELATION_COLOR.get(e["relation"], "#9AA0A6"),
+                "title": (e["evidence"] or "")[:200],
+            }
+            for e in c["edges"]
+        ]
+        graph_data[cid] = {"nodes": nodes, "edges": edges}
+
