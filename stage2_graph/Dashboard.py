@@ -100,3 +100,17 @@ def render_dashboard(lineage, out_path):
   </div>
 </div>
 
+<script>
+const graphData = {json.dumps(graph_data)};
+const clusters = {json.dumps({cid: c["frontier"] for cid, c in clusters.items()})};
+
+let network = null;
+
+function selectCluster(cid) {{
+  document.querySelectorAll('.cluster-item').forEach(el => el.classList.remove('active'));
+  document.querySelector(`[data-cid="${{cid}}"]`).classList.add('active');
+
+  const data = graphData[cid];
+  const nodes = new vis.DataSet(data.nodes.map(n => ({{...n, level: n.year}})));
+  const edges = new vis.DataSet(data.edges.map((e, i) => ({{...e, id: i, arrows: 'to', font: {{color:'#ccc', size:10}}}})));
+
