@@ -130,3 +130,20 @@ function selectCluster(cid) {{
   ).join('') || '<div class="frontier-item">No frontier data</div>';
 }}
 
+// select first cluster on load
+const firstCid = Object.keys(graphData)[0];
+if (firstCid !== undefined) selectCluster(firstCid);
+</script>
+
+</body>
+</html>"""
+
+    with open(out_path, "w") as f:
+        f.write(html)
+
+
+if __name__ == "__main__":
+    with open("lineage_graph.json") as f:
+        lineage = json.load(f)
+    render_dashboard(lineage, "dashboard.html")
+    print("Wrote dashboard.html")
