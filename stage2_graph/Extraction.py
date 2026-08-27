@@ -38,3 +38,21 @@ def fetch_papers(search_query, max_results=50, start=0):
         raise
     feed = feedparser.parse(response.read())
     
+    papers = []
+    for entry in feed.entries:
+        paper = {
+            "arxiv_id": entry.id.split('/abs/')[-1],  # e.g. "quant-ph/0307015" or "2301.00001"
+            "title": entry.title.replace('\n', ' ').strip(),
+            "abstract": entry.summary.replace('\n', ' ').strip(),
+            "published": entry.published,       # ISO 8601, e.g. "2003-07-07T13:46:39-04:00"
+            "updated": entry.updated,
+            "authors": [a.name for a in entry.authors],
+            "primary_category": entry.arxiv_primary_category['term'],
+            "categories": [t['term'] for t in entry.tags],
+            "pdf_url": next((l.href for l in entry.links if l.type == 'application/pdf'), None),
+            "comment": entry.get('arxiv_comment', None),   # often has page count, "accepted at X"
+            "journal_ref": entry.get('arxiv_journal_ref', None),
+            "doi": entry.get('arxiv_doi', None),
+        }
+        papers.append(paper)
+    return papers
