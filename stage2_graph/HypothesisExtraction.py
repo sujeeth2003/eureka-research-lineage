@@ -28,3 +28,17 @@ each annotated with `relation`, `confidence`, `evidence`, and
 `quant_signal` (any extracted numeric comparison string).
 """
 
+import os
+import re
+import json
+
+# --- keyword families -------------------------------------------------
+
+DISPROVE_WORDS = [
+    "however", "in contrast", "contrary to", "fails to", "does not hold",
+    "we show that .* does not", "disprove", "refute", "contradicts",
+    "overturns", "invalidates", "no longer holds", "counterexample",
+    "unlike", "fails when", "breaks down", "is insufficient",
+    "cannot explain", "inconsistent with",
+]
+
