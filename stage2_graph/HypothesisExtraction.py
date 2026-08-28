@@ -42,3 +42,21 @@ DISPROVE_WORDS = [
     "cannot explain", "inconsistent with",
 ]
 
+IMPROVE_WORDS = [
+    "outperform", "faster", "improves upon", "improve upon", "achieves better",
+    "higher accuracy", "lower error", "reduces", "state-of-the-art",
+    "sota", "surpasses", "more efficient", "speeds up", "fewer parameters",
+    "better than", "superior to", "significant improvement", "gains over",
+]
+
+EXTEND_WORDS = [
+    "extend", "generalize", "building on", "build on", "based on",
+    "following", "inspired by", "we adapt", "we modify", "augment",
+    "incorporate", "combine .* with", "leverage", "expand upon",
+]
+
+USE_WORDS = [
+    "we use", "utilizing", "employ", "adopt", "apply", "as in",
+    "following the approach of", "using the method of",
+]
+
