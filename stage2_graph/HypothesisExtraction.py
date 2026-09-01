@@ -60,3 +60,10 @@ USE_WORDS = [
     "following the approach of", "using the method of",
 ]
 
+QUANT_PATTERN = re.compile(
+    r"(\d+(\.\d+)?\s*[xX%]|"
+    r"O\([^)]+\)\s*(vs\.?|versus|compared to)\s*O\([^)]+\)|"
+    r"\d+(\.\d+)?\s*(times|percent|pp)\b)"
+)
+
+
