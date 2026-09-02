@@ -78,3 +78,18 @@ def _score(text, word_list):
     return score, hits
 
 
+def classify_lexical(evidence_text):
+    """Rule-based classification of a single evidence string."""
+    if not evidence_text:
+        return None, 0.0, [], None
+
+    quant_match = QUANT_PATTERN.search(evidence_text)
+    quant_signal = quant_match.group(0) if quant_match else None
+
+    scores = {
+        "disproves": _score(evidence_text, DISPROVE_WORDS),
+        "improves": _score(evidence_text, IMPROVE_WORDS),
+        "extends": _score(evidence_text, EXTEND_WORDS),
+        "uses": _score(evidence_text, USE_WORDS),
+    }
+
