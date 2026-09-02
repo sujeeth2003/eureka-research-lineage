@@ -93,3 +93,17 @@ def classify_lexical(evidence_text):
         "uses": _score(evidence_text, USE_WORDS),
     }
 
+    # quantitative comparison language strongly implies "improves"
+    if quant_signal:
+        scores["improves"] = (scores["improves"][0] + 2, scores["improves"][1])
+
+    best_label, (best_score, hits) = max(scores.items(), key=lambda kv: kv[1][0])
+
+    if best_score == 0:
+        return "uses", 0.3, [], quant_signal  # default: weak/no signal -> plain citation
+
+    total_hits = sum(s for s, _ in scores.values())
+    confidence = min(0.95, 0.4 + 0.15 * best_score) if total_hits else 0.3
+
+    return best_label, confidence, hits, quant_signal
+
