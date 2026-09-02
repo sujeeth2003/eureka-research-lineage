@@ -121,3 +121,20 @@ def classify_lexical_multi(contexts):
     return best
 
 
+# --- optional LLM layer for ambiguous edges -----------------------------
+
+def classify_llm(source_title, target_title, contexts, model="claude-sonnet-4-6"):
+    """
+    Ask Claude to classify an ambiguous edge. Requires ANTHROPIC_API_KEY
+    in the environment and the `anthropic` package installed.
+    Returns (label, confidence, rationale) or None on any failure.
+    """
+    try:
+        import anthropic
+    except ImportError:
+        return None
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        return None
+
