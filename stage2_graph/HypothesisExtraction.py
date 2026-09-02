@@ -107,3 +107,17 @@ def classify_lexical(evidence_text):
 
     return best_label, confidence, hits, quant_signal
 
+
+def classify_lexical_multi(contexts):
+    """Combine multiple evidence snippets for one edge into one verdict."""
+    if not contexts:
+        return "uses", 0.2, [], None
+
+    best = ("uses", 0.0, [], None)
+    for ctx in contexts:
+        label, conf, hits, quant = classify_lexical(ctx)
+        if conf > best[1]:
+            best = (label, conf, hits, quant)
+    return best
+
+
