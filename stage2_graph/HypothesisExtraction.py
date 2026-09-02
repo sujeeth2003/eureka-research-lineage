@@ -67,3 +67,14 @@ QUANT_PATTERN = re.compile(
 )
 
 
+def _score(text, word_list):
+    text_l = text.lower()
+    score = 0
+    hits = []
+    for w in word_list:
+        if re.search(w, text_l):
+            score += 1
+            hits.append(w)
+    return score, hits
+
+
