@@ -14,3 +14,20 @@ Assembles the final EurekaLineage graph:
 Output: lineage_graph.json, structured for the dashboard.
 """
 
+import os
+import json
+import pandas as pd
+
+
+def build_lineage(clustered_df, cluster_terms_df, hypothesis_edges, out_dir):
+    clusters = {}
+
+    cluster_label = {
+        int(row["cluster_id"]): row.get("top_5_terms", "")
+        for _, row in cluster_terms_df.iterrows()
+    }
+
+    for cid, group in clustered_df.groupby("cluster_id"):
+        cid = int(cid)
+        papers_sorted = group.sort_values("published")
+
