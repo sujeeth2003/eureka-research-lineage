@@ -165,3 +165,19 @@ Reply with ONLY a JSON object: {{"relation": "...", "confidence": 0.0-1.0, "rati
         print(f"  [llm] classification failed: {e}")
         return None
 
+
+# --- orchestration --------------------------------------------------------
+
+def annotate_edges(citation_contexts, out_dir, use_llm=False, llm_confidence_threshold=0.5):
+    annotated = []
+
+    for edge in citation_contexts:
+        contexts = edge.get("citation_contexts", [])
+        label, confidence, hits, quant = classify_lexical_multi(contexts)
+
+        rationale = None
+        if use_llm and confidence < llm_confidence_threshold:
+            llm_result = classify_llm(edge["source_title"], edge["target_title"], contexts)
+            if llm_result:
+                label, confidence, rationale = llm_result
+
