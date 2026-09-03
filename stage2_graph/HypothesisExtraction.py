@@ -181,3 +181,16 @@ def annotate_edges(citation_contexts, out_dir, use_llm=False, llm_confidence_thr
             if llm_result:
                 label, confidence, rationale = llm_result
 
+        annotated.append({
+            **edge,
+            "relation": label,
+            "confidence": round(confidence, 2),
+            "keyword_hits": hits,
+            "quant_signal": quant,
+            "rationale": rationale,
+        })
+
+    with open(os.path.join(out_dir, "hypothesis_edges.json"), "w") as f:
+        json.dump(annotated, f, indent=2)
+
+    return annotated
