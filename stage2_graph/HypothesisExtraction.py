@@ -138,3 +138,30 @@ def classify_llm(source_title, target_title, contexts, model="claude-sonnet-4-6"
     if not api_key:
         return None
 
+    evidence = "\n---\n".join(contexts[:3]) if contexts else "(no in-text snippet found)"
+    prompt = f"""You are labeling one citation edge in a research paper lineage graph.
+
+Source paper: "{source_title}"
+Target (cited) paper: "{target_title}"
+
+Evidence snippet(s) from the source paper's text around the citation:
+{evidence}
+
+Classify the relationship as exactly one of: extends, improves, disproves, uses.
+Reply with ONLY a JSON object: {{"relation": "...", "confidence": 0.0-1.0, "rationale": "one sentence"}}"""
+
+    try:
+        client = anthropic.Anthropic(api_key=api_key)
+        resp = client.messages.create(
+            model=model,
+            max_tokens=200,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = resp.content[0].text.strip()
+        text = re.sub(r"^```json|```$", "", text).strip()
+        data = json.loads(text)
+        return data.get("relation"), float(data.get("confidence", 0.5)), data.get("rationale", "")
+    except Exception as e:
+        print(f"  [llm] classification failed: {e}")
+        return None
+
