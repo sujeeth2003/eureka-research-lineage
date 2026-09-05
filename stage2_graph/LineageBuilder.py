@@ -31,3 +31,25 @@ def build_lineage(clustered_df, cluster_terms_df, hypothesis_edges, out_dir):
         cid = int(cid)
         papers_sorted = group.sort_values("published")
 
+        nodes = []
+        for _, p in papers_sorted.iterrows():
+            nodes.append({
+                "arxiv_id": p["arxiv_id"],
+                "title": p["title"],
+                "year": pd.to_datetime(p["published"]).year,
+                "published": p["published"],
+            })
+
+        edges = [
+            {
+                "source": e["source_arxiv"],
+                "target": e["target_arxiv"],
+                "relation": e["relation"],
+                "confidence": e["confidence"],
+                "evidence": (e["citation_contexts"][0] if e.get("citation_contexts") else None),
+                "quant_signal": e.get("quant_signal"),
+            }
+            for e in hypothesis_edges
+            if int(e["cluster_id"]) == cid
+        ]
+
