@@ -53,3 +53,20 @@ def build_lineage(clustered_df, cluster_terms_df, hypothesis_edges, out_dir):
             if int(e["cluster_id"]) == cid
         ]
 
+        # Frontier: nodes with no outgoing "disproves"/"improves" edge pointing
+        # AWAY from them as the target (i.e. nobody has superseded them yet),
+        # restricted to the most recent year(s) in the cluster.
+        superseded = {
+            e["target"] for e in edges if e["relation"] in ("disproves", "improves")
+        }
+        frontier_candidates = [n for n in nodes if n["arxiv_id"] not in superseded]
+        frontier = sorted(frontier_candidates, key=lambda n: n["year"], reverse=True)[:5]
+
+        clusters[cid] = {
+            "cluster_id": cid,
+            "label": cluster_label.get(cid, f"cluster {cid}"),
+            "nodes": nodes,
+            "edges": edges,
+            "frontier": frontier,
+        }
+
