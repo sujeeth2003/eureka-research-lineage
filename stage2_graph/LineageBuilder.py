@@ -70,3 +70,16 @@ def build_lineage(clustered_df, cluster_terms_df, hypothesis_edges, out_dir):
             "frontier": frontier,
         }
 
+    lineage = {
+        "clusters": clusters,
+        "generated_from": {
+            "n_papers": len(clustered_df),
+            "n_clusters": len(clusters),
+            "n_relation_edges": len(hypothesis_edges),
+        },
+    }
+
+    with open(os.path.join(out_dir, "lineage_graph.json"), "w") as f:
+        json.dump(lineage, f, indent=2, default=str)
+
+    return lineage
