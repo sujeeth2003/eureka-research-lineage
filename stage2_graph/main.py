@@ -28,3 +28,13 @@ from HypothesisExtraction import annotate_edges
 from LineageBuilder import build_lineage
 from Dashboard import render_dashboard
 
+# ---------------------------------------------------------------------------
+# Config
+# ---------------------------------------------------------------------------
+SEARCH_QUERY = "all:quant-ph"     # arXiv search query
+MAX_RESULTS = 100                 # corpus size
+OUT_DIR = "eurekalineage_out"     # all outputs land here
+DOWNLOAD_PDFS = True              # False = skip citation-context evidence (faster, less signal)
+USE_LLM_FOR_AMBIGUOUS = False     # True = call Claude for low-confidence edges (needs ANTHROPIC_API_KEY)
+
+
