@@ -38,3 +38,18 @@ DOWNLOAD_PDFS = True              # False = skip citation-context evidence (fast
 USE_LLM_FOR_AMBIGUOUS = False     # True = call Claude for low-confidence edges (needs ANTHROPIC_API_KEY)
 
 
+def main():
+    os.makedirs(OUT_DIR, exist_ok=True)
+
+    # 1. Fetch -------------------------------------------------------------
+    print(f"[1/7] Fetching papers: {SEARCH_QUERY} (n={MAX_RESULTS})")
+    papers = fetch_papers(SEARCH_QUERY, max_results=MAX_RESULTS)
+    print(f"  got {len(papers)} papers")
+
+    # 2. Embed ---------------------------------------------------------------
+    print("[2/7] Embedding papers with SPECTER2...")
+    embedded = [embed_paper(p["title"], p["abstract"]) for p in papers]
+    X = np.vstack(embedded)
+    if X.shape[0] < 3:
+        raise ValueError("Need at least 3 papers to cluster")
+
