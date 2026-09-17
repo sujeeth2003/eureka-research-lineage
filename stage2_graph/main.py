@@ -53,3 +53,20 @@ def main():
     if X.shape[0] < 3:
         raise ValueError("Need at least 3 papers to cluster")
 
+    # 3. Reduce + cluster ------------------------------------------------
+    print("[3/7] UMAP + HDBSCAN clustering...")
+    n_neighbors = min(5, X.shape[0] - 1)
+    n_components = min(10, X.shape[0] - 2)
+    reducer = umap.UMAP(n_neighbors=n_neighbors, n_components=n_components,
+                         metric="cosine", random_state=42)
+    X_reduced = reducer.fit_transform(X)
+    cluster_labels = cluster(X_reduced)
+
+    for paper, cid in zip(papers, cluster_labels):
+        paper["cluster_id"] = int(cid)
+
+    df = pd.DataFrame(papers)
+    df.to_csv(os.path.join(OUT_DIR, "clustered_papers.csv"), index=False)
+    print(f"  {df['cluster_id'].nunique()} clusters found "
+          f"({(df['cluster_id'] == -1).sum()} unclustered/noise)")
+
