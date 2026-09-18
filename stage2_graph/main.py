@@ -70,3 +70,22 @@ def main():
     print(f"  {df['cluster_id'].nunique()} clusters found "
           f"({(df['cluster_id'] == -1).sum()} unclustered/noise)")
 
+    # 4. Cluster theme labels ----------------------------------------------
+    print("[4/7] Extracting cluster theme labels...")
+    cluster_terms = extract_top_terms_per_cluster(df)
+    cluster_terms_df = pd.DataFrame(cluster_terms)
+    cluster_terms_df.to_csv(os.path.join(OUT_DIR, "cluster_top_terms.csv"), index=False)
+
+    # 5. Citation graph (restricted to same-cluster, earlier target) -------
+    print("[5/7] Building citation graph (OpenAlex + PDF evidence)...")
+    candidate_df, citation_contexts = build_citation_graph(
+        papers, OUT_DIR, download=DOWNLOAD_PDFS
+    )
+
+    # 6. Classify each edge: extends / improves / disproves / uses ---------
+    print("[6/7] Classifying relations for each citation edge...")
+    hypothesis_edges = annotate_edges(
+        citation_contexts, OUT_DIR, use_llm=USE_LLM_FOR_AMBIGUOUS
+    )
+    print(f"  {len(hypothesis_edges)} edges annotated")
+
