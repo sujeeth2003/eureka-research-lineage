@@ -7,3 +7,10 @@ Maps how research ideas flow between papers, authors and companies.
 
 The schema is 3NF SQLite: papers, authors, mentors, company adoption. Lineage is a self-referential relation queried with multi-table joins and self-joins. Scaling to a graph store or PostgreSQL is outlined, not built.
 
+## Setup
+```bash
+cp .env.example .env    # add SEMANTIC_SCHOLAR_API_KEY
+pip install -r requirements.txt
+python main.py
+```
+Precomputed outputs (clusters, candidate edges, dashboard) are in `outputs/`.
