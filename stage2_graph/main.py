@@ -89,3 +89,13 @@ def main():
     )
     print(f"  {len(hypothesis_edges)} edges annotated")
 
+    # 7. Lineage graph + dashboard -------------------------------------------
+    print("[7/7] Building lineage graph and dashboard...")
+    lineage = build_lineage(df, cluster_terms_df, hypothesis_edges, OUT_DIR)
+    render_dashboard(lineage, os.path.join(OUT_DIR, "dashboard.html"))
+
+    print(f"\nDone. Open {os.path.join(OUT_DIR, 'dashboard.html')} in a browser.")
+
+
+if __name__ == "__main__":
+    main()
